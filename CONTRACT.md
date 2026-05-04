@@ -142,7 +142,7 @@ cd mfe-reco    && npm install && npm start  # T3, port 3003
 cd shell       && npm install && npm start  # T4, port 3000
 ```
 
-Ouvrir `http://localhost:3000` et observer.
+Ouvrir `http://localhost:3000` .
 
 ## Validation finale 
 
