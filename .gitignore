@@ -1,44 +1,6 @@
-# Dependencies
 node_modules/
-
-# Builds & bundles
 dist/
 build/
-*.local.js
-
-# Logs & debug
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Environment (secrets)
-.env
-.env.*
-!.env.example
-
-# Test & coverage
-coverage/
-.nyc_output/
-
-# Caches
-.cache/
-.parcel-cache/
-.eslintcache
-*.tsbuildinfo
-
-# OS
 .DS_Store
-Thumbs.db
-
-# Editors / IDEs
-.idea/
-*.swp
-*.swo
-*~
-
-# Optional tooling
-.turbo/
-.vercel/
+*.log
+.env
