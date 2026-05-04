@@ -1,8 +1,8 @@
 import React from 'react';
-import Recommendations from './components/Recommendations';
+import Reco from './Reco';
 
 function App() {
-  return <Recommendations />;
+  return <Reco />;
 }
 
 export default App;
