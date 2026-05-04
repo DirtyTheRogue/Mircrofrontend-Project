@@ -1,7 +1,71 @@
-import React, { useState, useEffect, Suspense, lazy } from 'react';
+import React, { useEffect, useState, Suspense, lazy } from 'react';
 import './App.css';
+import eventBus from 'shared/eventBus';
 
-// TODO: importer les 3 MFEs avec React.lazy()
+function createRemoteComponent(importer, label) {
+  return lazy(() =>
+    importer().catch(() => ({
+      default: function RemoteUnavailable() {
+        return (
+          <div
+            style={{
+              padding: '24px',
+              borderRadius: '12px',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
+              background: 'rgba(255, 0, 85, 0.08)',
+              color: '#ffd5de',
+              fontWeight: 600,
+              lineHeight: 1.5,
+            }}
+          >
+            MFE indisponible: {label}
+          </div>
+        );
+      },
+    }))
+  );
+}
+
+const ProductGrid = createRemoteComponent(() => import('mfeProduct/ProductGrid'), 'Catalogue');
+const Cart = createRemoteComponent(() => import('mfeCart/Cart'), 'Panier');
+const Reco = createRemoteComponent(() => import('mfeReco/Reco'), 'Recommandations');
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error) {
+    console.error('[Shell] Remote error:', error);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div
+          style={{
+            padding: '24px',
+            borderRadius: '12px',
+            border: '1px solid rgba(255, 255, 255, 0.12)',
+            background: 'rgba(255, 0, 85, 0.08)',
+            color: '#ffd5de',
+            fontWeight: 600,
+            lineHeight: 1.5,
+          }}
+        >
+          MFE indisponible
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
 
 function LoadingFallback({ name }) {
   return <div className="loading-fallback">Chargement {name}...</div>;
@@ -11,7 +75,11 @@ function App() {
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
-    // TODO: ecouter les mises a jour du panier pour le badge
+    const unsubscribe = eventBus.on('cart:updated', (payload) => {
+      setCartCount(typeof payload?.count === 'number' ? payload.count : 0);
+    });
+
+    return unsubscribe;
   }, []);
 
   return (
@@ -22,17 +90,26 @@ function App() {
       </header>
       <main className="shell-main">
         <section className="product-area">
-          {/* TODO: afficher mfe-product avec Suspense */}
-          <LoadingFallback name="Products" />
+          <ErrorBoundary>
+            <Suspense fallback={<LoadingFallback name="Products" />}>
+              <ProductGrid />
+            </Suspense>
+          </ErrorBoundary>
         </section>
         <aside className="cart-area">
-          {/* TODO: afficher mfe-cart avec Suspense */}
-          <LoadingFallback name="Cart" />
+          <ErrorBoundary>
+            <Suspense fallback={<LoadingFallback name="Cart" />}>
+              <Cart />
+            </Suspense>
+          </ErrorBoundary>
         </aside>
       </main>
       <section className="reco-area">
-        {/* TODO: afficher mfe-reco avec Suspense */}
-        <LoadingFallback name="Recommendations" />
+        <ErrorBoundary>
+          <Suspense fallback={<LoadingFallback name="Recommendations" />}>
+            <Reco />
+          </Suspense>
+        </ErrorBoundary>
       </section>
     </div>
   );

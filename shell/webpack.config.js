@@ -1,13 +1,14 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { ModuleFederationPlugin } = require('webpack').container;
 const path = require('path');
+const deps = require('./package.json').dependencies;
 
 module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[contenthash].js',
-    publicPath: 'http://localhost:3000/',
+    filename: '[name].js',
+    publicPath: 'auto',
     clean: true,
   },
   devServer: {
@@ -46,11 +47,14 @@ module.exports = {
   plugins: [
     new ModuleFederationPlugin({
       name: 'shell',
-      // TODO: declarer les 3 MFEs comme remotes
-      remotes: {},
+      remotes: {
+        mfeProduct: 'mfeProduct@http://localhost:3001/remoteEntry.js',
+        mfeCart: 'mfeCart@http://localhost:3002/remoteEntry.js',
+        mfeReco: 'mfeReco@http://localhost:3003/remoteEntry.js',
+      },
       shared: {
-        react: { singleton: true, requiredVersion: '^18.2.0' },
-        'react-dom': { singleton: true, requiredVersion: '^18.2.0' },
+        react: { singleton: true, requiredVersion: deps.react },
+        'react-dom': { singleton: true, requiredVersion: deps['react-dom'] },
       },
     }),
     new HtmlWebpackPlugin({ template: './public/index.html' }),
