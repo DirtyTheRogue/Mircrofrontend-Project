@@ -1,0 +1,156 @@
+.cart {
+  background: #1a1a2e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart h2 {
+  font-family: 'Press Start 2P', 'Outfit', monospace;
+  font-size: 16px;
+  color: #00f0ff;
+  margin: 0 0 20px 0;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
+
+/* --- Empty State --- */
+.empty {
+  color: #555;
+  font-style: italic;
+  text-align: center;
+  padding: 40px 0;
+  font-size: 14px;
+}
+
+/* --- Cart Items List --- */
+.cart-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.cart-items::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cart-items::-webkit-scrollbar-track {
+  background: #0a0a0f;
+  border-radius: 3px;
+}
+
+.cart-items::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+
+.cart-items::-webkit-scrollbar-thumb:hover {
+  background: #00f0ff;
+}
+
+/* --- Cart Item Row --- */
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  animation: slideIn 0.2s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.item-name {
+  color: #e0e0e0;
+  font-size: 14px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-price {
+  color: #00f0ff;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* --- Remove Button --- */
+.remove-btn {
+  background: rgba(255, 50, 50, 0.15);
+  color: #ff4444;
+  border: 1px solid rgba(255, 50, 50, 0.3);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.remove-btn:hover {
+  background: rgba(255, 50, 50, 0.35);
+  box-shadow: 0 0 10px rgba(255, 50, 50, 0.3);
+  transform: scale(1.1);
+}
+
+/* --- Cart Footer --- */
+.cart-footer {
+  border-top: 2px solid rgba(0, 240, 255, 0.15);
+  padding-top: 16px;
+  margin-top: 16px;
+}
+
+.cart-total {
+  font-family: 'Press Start 2P', 'Outfit', monospace;
+  font-size: 18px;
+  color: #00f0ff;
+  font-weight: 700;
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+  margin-bottom: 14px;
+  text-align: right;
+}
+
+/* --- Clear Button --- */
+.clear-btn {
+  width: 100%;
+  background: transparent;
+  color: #ff00aa;
+  border: 2px solid #ff00aa;
+  border-radius: 8px;
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.clear-btn:hover {
+  background: rgba(255, 0, 170, 0.1);
+  box-shadow: 0 0 16px rgba(255, 0, 170, 0.3);
+  transform: scale(1.02);
+}
+
+.clear-btn:active {
+  transform: scale(0.97);
+}
