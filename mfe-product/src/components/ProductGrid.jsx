@@ -20,7 +20,10 @@ function ProductCard({ product, onAdd }) {
 
 function ProductGrid() {
   const handleAdd = (product) => {
-    // TODO: notifier le reste de l'application qu'un produit a ete ajoute
+    // Contrat d'équipe : émettre 'cart:add' avec le payload minimal
+    // Payload attendu : { id: string|number, name: string, price: number }
+    const payload = { id: product.id, name: product.name, price: product.price };
+    eventBus.emit('cart:add', payload);
   };
 
   return (
